@@ -1,17 +1,63 @@
-# sesion_12
+# 🚀 Sesión 12: Ciclo de Vida de un StatefulWidget en Flutter
 
-A new Flutter project.
+Este proyecto contiene la implementación y demostración en consola del **Ciclo de Vida completo de un `StatefulWidget`** en Flutter, respondiendo a los requerimientos de la Sesión 12.
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+## 📊 Diagrama de Flujo del Ciclo de Vida (ASCII)
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```text
+               +-----------------------------------+
+               | INICIO: Instanciación del Widget  |
+               +-----------------------------------+
+                                 |
+                                 v
+                    +-------------------------+
+                    |    1. createState()     |  <-- mounted = false
+                    +-------------------------+
+                                 |
+                                 v
+                     =========================
+                        mounted = true (Context)
+                     =========================
+                                 |
+                                 v
+                    +-------------------------+
+                    |    2. initState()       |  <-- Una sola vez
+                    +-------------------------+
+                                 |
+                                 v
+                    +-------------------------+
+                    | 3. didChangeDependencies|  <-- 1 o más veces
+                    +-------------------------+
+                                 |
+                                 +<--------------------------+
+                                 |                           |
+                                 v                           |
+                    +-------------------------+              |
+            +-----> |      4. build()         |              |
+            |       +-------------------------+              |
+            |                    |                           |
+            |             [ Eventos / UI ]                   |
+     (setState)           /              \                   |
+            |            /                \                  |
+            +-----------+                  v                 |
+                                 +-------------------+       |
+                                 | 5. didUpdateWidget| ------+
+                                 +-------------------+
+                                   (Reconstrucción Padre)
+                                 |
+                                 v (Desmontaje)
+                    +-------------------------+
+                    |    6. deactivate()      |  <-- Temporal
+                    +-------------------------+
+                                 |
+                                 v
+                    +-------------------------+
+                    |    7. dispose()         |  <-- Una sola vez
+                    +-------------------------+
+                                 |
+                                 v
+                     =========================
+                        mounted = false (GC)
+                     =========================
